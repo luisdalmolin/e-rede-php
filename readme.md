@@ -1,3 +1,3 @@
-# E-REDE PHP SDK
+# E-Rede PHP SDK
 
 Em desenvolvimento.
