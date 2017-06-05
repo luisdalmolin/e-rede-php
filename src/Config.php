@@ -2,6 +2,7 @@
 
 namespace Dalmolin\ERede;
 
+use Exception;
 use SoapClient;
 
 class Config
@@ -32,7 +33,7 @@ class Config
 	public $client;
 
 	protected $endpoints = [
-		'sandbox'    => 'https://scommerce.userede.com.br/Redecard.Komerci.External.WcfKomerci/KomerciWcf.svc',
+		'sandbox'    => 'https://scommerce.userede.com.br/Redecard.Komerci.External.WcfKomerci/KomerciWcf.svc?wsdl',
 		'production' => 'https://ecommerce.userede.com.br/Redecard.Adquirencia.Wcf/KomerciWcf.svc',
 	];
 
@@ -46,18 +47,13 @@ class Config
 			'soap_version' => SOAP_1_1,
 			'encoding'     => 'UTF-8'
 		]);
-	}
-
-	public function execute()
-	{
-
+		// dd($this->client->__getFunctions());
 	}
 
 	public static function getInstance()
 	{
 		if (! static::$instance) {
 			static::$instance = new static;
-			static::$instance->configure();
 		}
 
 		return static::$instance;
@@ -93,9 +89,20 @@ class Config
 
 	public function call($method, $data)
     {
-        return $this->client->{$method}(array_merge($data, [
-			'SENHA'    => $this->token,
-			'FILIACAO' => $this->filiacao,
-		]));
+    	try {
+	        return $this->client->{$method}(array_merge($data, [
+				'Senha'    => $this->token,
+				'Filiacao' => $this->filiacao,
+			]));
+	    }
+	    catch (Exception $e) {
+	    	echo 'Erro: ';
+	    	echo $e->getMessage();
+
+	    	dd(array_merge($data, [
+				'Senha'    => $this->token,
+				'Filiacao' => $this->filiacao,
+			]));
+	    }
     }
 }

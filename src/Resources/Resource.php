@@ -24,6 +24,17 @@ abstract class Resource
 		$this->config = Config::getInstance();
 	}
 
+	public function fill($data)
+    {
+        foreach ((array) $data as $key => $value) {
+            if ($this->isFillable($key)) {
+                $this->setAttribute($key, $value);
+            }
+        }
+
+        return $this;
+    }
+
 	public function isFillable($key)
 	{
 		return in_array($key, $this->fillable);
@@ -61,7 +72,7 @@ abstract class Resource
 
 	public function call($method, $data = [])
 	{
-		return $this->client->call($method, $data);
+		return $this->config->call($method, $data);
 	}
 
 	public function handleClientException(ClientException $e, $data = [])
@@ -84,4 +95,11 @@ abstract class Resource
 
 		throw $exception;
 	}
+
+	protected function _studly($key)
+    {
+        $value = ucwords(str_replace(['-', '_'], ' ', $key));
+
+        return str_replace(' ', '', $value);
+    }
 }

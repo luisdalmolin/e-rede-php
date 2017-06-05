@@ -5,29 +5,31 @@ namespace Dalmolin\ERede\Resources;
 class Authorization extends Resource
 {
     protected $fillable = [
-	'ANO',
-	'MÊS',
-	'CVC2',
-	'NRCARTAO',
-	'PORTADOR',
-	'FILIACAO',
-	'NUMPEDIDO',
-	'ORIGEM',
-	'PARCELAS',
-	'RECORRENTE',
-	'SENHA',
-	'TOTAL',
-	'TRANSACAO',
+		'Ano',
+		'Mes',
+		'Cvc2',
+		'Nrcartao',
+		'Portador',
+		'Filiacao',
+		'NumPedido',
+		'Origem',
+		'Parcelas',
+		'Recorrente',
+		'Senha',
+		'Total',
+		'Transacao',
     ];
 
     protected $attributes = [
-        'RECORRENTE' => '0',
-	'ORIGEM'     => '01',
-    	'TRANSACAO'  => '74',
+        'Recorrente' => '0',
+		'Origem'     => '01',
+    	'Transacao'  => '74',
     ];
 
     public function execute()
     {
-	$this->call('GetAuthorizedCredit', $this->attributes);
+		$response = $this->call('GetAuthorizedCredit', $this->attributes);
+
+		dd($response);
     }
 }
