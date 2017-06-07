@@ -4,6 +4,7 @@ namespace Dalmolin\ERede;
 
 use Exception;
 use SoapClient;
+use Illuminate\Support\Facades\Log;
 
 class Config
 {
@@ -21,6 +22,11 @@ class Config
 	 * E-Rede filiação
 	 */
 	protected $filiacao;
+
+	/**
+	 * E-Rede identificacaoFatura
+	 */
+	protected $identificacaoFatura;
 
 	/**
 	 * Environment
@@ -71,6 +77,12 @@ class Config
 		return $this;
 	}
 
+	public function setIdentificacaoFatura($identificacaoFatura)
+	{
+		$this->identificacaoFatura = $identificacaoFatura;
+		return $this;
+	}
+
 	public function setEnvironment($environment)
 	{
 		$this->environment = $environment;
@@ -89,20 +101,31 @@ class Config
 
 	public function call($method, $data)
     {
+    	$data = array_merge($data, [
+			'Senha'               => $this->token,
+			'Filiacao'            => $this->filiacao,
+			'IdentificacaoFatura' => $this->identificacaoFatura,
+		]);
+
     	try {
-	        return $this->client->{$method}(array_merge($data, [
-				'Senha'    => $this->token,
-				'Filiacao' => $this->filiacao,
-			]));
+	        return $this->client->{$method}(['request' => $data]);
 	    }
 	    catch (Exception $e) {
-	    	echo 'Erro: ';
-	    	echo $e->getMessage();
+	    	Log::error($e);
 
-	    	dd(array_merge($data, [
-				'Senha'    => $this->token,
-				'Filiacao' => $this->filiacao,
-			]));
+	    	if (app()->environment('local')) {
+		    	echo "====== REQUEST HEADERS =====" . PHP_EOL;
+			    var_dump($this->client->__getLastRequestHeaders());
+			    echo "========= REQUEST ==========" . PHP_EOL;
+			    var_dump($this->client->__getLastRequest());
+			    echo "========= RESPONSE =========" . PHP_EOL;
+
+		    	echo 'Erro: ';
+		    	echo $e->getMessage() . PHP_EOL . PHP_EOL;
+
+		    	echo 'Data: ';
+		    	dd($method, $data);
+		    }
 	    }
     }
 }

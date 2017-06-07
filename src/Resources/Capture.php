@@ -4,20 +4,14 @@ namespace Dalmolin\ERede\Resources;
 
 use Dalmolin\ERede\Exceptions\ERedeException;
 
-class Authorization extends Resource
+class Capture extends Resource
 {
     protected $fillable = [
-		'Ano',
-		'Mes',
-		'Cvc2',
-		'Nrcartao',
-		'Portador',
-		'NumPedido',
-		'Origem',
-		'Parcelas',
-		'Recorrente',
+		'Data',
+		'NumAutor',
+		'NumSqn',
+		'Tid',
 		'Total',
-		'Transacao',
     ];
 
     protected $attributes = [
@@ -28,9 +22,8 @@ class Authorization extends Resource
 
     public function execute()
     {
-		$response = $this->call('GetAuthorizedCredit', $this->attributes)
-						 ->GetAuthorizedCreditResult;
-						 // dd($response);
+		$response = $this->call('ConfirmTxnTID', $this->attributes)
+						 ->ConfirmTxnTIDResult;
 
 		switch ($response->CodRet) {
 			case '00':
