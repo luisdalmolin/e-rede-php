@@ -40,7 +40,7 @@ class Config
 
 	protected $endpoints = [
 		'sandbox'    => 'https://scommerce.userede.com.br/Redecard.Komerci.External.WcfKomerci/KomerciWcf.svc?wsdl',
-		'production' => 'https://ecommerce.userede.com.br/Redecard.Adquirencia.Wcf/KomerciWcf.svc',
+		'production' => 'https://ecommerce.userede.com.br/Redecard.Adquirencia.Wcf/KomerciWcf.svc?wsdl',
 	];
 
 	public function configure()
