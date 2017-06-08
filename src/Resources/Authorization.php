@@ -30,8 +30,7 @@ class Authorization extends Resource
     {
 		$response = $this->call('GetAuthorizedCredit', $this->attributes)
 						 ->GetAuthorizedCreditResult;
-						 // dd($response);
-
+		# $this->config->debugLastRequest();
 		switch ($response->CodRet) {
 			case '00':
 				return $response;

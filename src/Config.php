@@ -53,7 +53,6 @@ class Config
 			'soap_version' => SOAP_1_1,
 			'encoding'     => 'UTF-8'
 		]);
-		// dd($this->client->__getFunctions());
 	}
 
 	public static function getInstance()
@@ -112,20 +111,15 @@ class Config
 	    }
 	    catch (Exception $e) {
 	    	Log::error($e);
-
-	    	if (app()->environment('local')) {
-		    	echo "====== REQUEST HEADERS =====" . PHP_EOL;
-			    var_dump($this->client->__getLastRequestHeaders());
-			    echo "========= REQUEST ==========" . PHP_EOL;
-			    var_dump($this->client->__getLastRequest());
-			    echo "========= RESPONSE =========" . PHP_EOL;
-
-		    	echo 'Erro: ';
-		    	echo $e->getMessage() . PHP_EOL . PHP_EOL;
-
-		    	echo 'Data: ';
-		    	dd($method, $data);
-		    }
 	    }
+    }
+
+    public function debugLastRequest()
+    {
+    	echo "====== REQUEST HEADERS =====" . PHP_EOL;
+	    var_dump($this->client->__getLastRequestHeaders());
+	    echo "========= REQUEST ==========" . PHP_EOL;
+	    var_dump($this->client->__getLastRequest());
+	    echo "========= RESPONSE =========" . PHP_EOL;
     }
 }

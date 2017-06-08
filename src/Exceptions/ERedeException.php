@@ -6,7 +6,6 @@ use InvalidArgumentException;
 
 class ERedeException extends InvalidArgumentException
 {
-
 	protected $codigoRetorno;
 
 	public function setCodigoRetorno($codigoRetorno)
