@@ -100,11 +100,11 @@ class Config
 
 	public function call($method, $data)
     {
-    	$data = array_merge($data, [
+    	$data = array_merge($data, array_filter([
 			'Senha'               => $this->token,
 			'Filiacao'            => $this->filiacao,
 			'IdentificacaoFatura' => $this->identificacaoFatura,
-		]);
+		]));
 
     	try {
 	        return $this->client->{$method}(['request' => $data]);
