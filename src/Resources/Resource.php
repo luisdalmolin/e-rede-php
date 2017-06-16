@@ -22,6 +22,7 @@ abstract class Resource
 		$this->fill($data);
 
 		$this->config = Config::getInstance();
+		$this->config->configure();
 	}
 
 	public function fill($data)
